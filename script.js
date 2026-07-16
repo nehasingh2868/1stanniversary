@@ -365,6 +365,7 @@ window.addEventListener('touchend', (e) => {
 updatePageZIndices();
 updateNavigationButtons();
 updatePaperThickness();
+initAutoplay();
 
 // Arrow Click Listeners
 document.getElementById('prev-btn').addEventListener('click', () => turnPage(-1));
@@ -388,24 +389,57 @@ window.addEventListener('resize', () => {
 /* ==========================================
    Music Player (Gramophone)
    ========================================== */
+let hasStartedBgMusic = false;
+
+function playBgMusic() {
+  if (hasStartedBgMusic) return;
+  bgMusic.play().then(() => {
+    isPlayingMusic = true;
+    hasStartedBgMusic = true;
+    if (musicPlayer) musicPlayer.classList.add('playing');
+    startSpawningNotes();
+  }).catch(err => {
+    console.log("Autoplay blocked by browser. Music will start on user interaction.");
+  });
+}
+
+function initAutoplay() {
+  playBgMusic();
+  const startMusicOnInteraction = () => {
+    if (!hasStartedBgMusic) {
+      playBgMusic();
+    }
+    if (hasStartedBgMusic) {
+      document.removeEventListener('click', startMusicOnInteraction);
+      document.removeEventListener('wheel', startMusicOnInteraction, { passive: true });
+      document.removeEventListener('touchstart', startMusicOnInteraction, { passive: true });
+    }
+  };
+  document.addEventListener('click', startMusicOnInteraction);
+  document.addEventListener('wheel', startMusicOnInteraction, { passive: true });
+  document.addEventListener('touchstart', startMusicOnInteraction, { passive: true });
+}
+
 function toggleMusic() {
   if (isPlayingMusic) {
     bgMusic.pause();
     isPlayingMusic = false;
+    hasStartedBgMusic = false;
     if (musicPlayer) musicPlayer.classList.remove('playing');
-    const playBtn = document.getElementById('player-play-btn');
-    if (playBtn) playBtn.classList.remove('playing-active');
-    const playArrow = document.getElementById('play-arrow-visual');
-    if (playArrow) playArrow.classList.remove('playing-state');
     clearInterval(notesInterval);
   } else {
+    // If playing player song (page 28), pause it first
+    if (isPlayingPlayerSong) {
+      const playerSong = document.getElementById('player-song');
+      if (playerSong) {
+        playerSong.pause();
+        isPlayingPlayerSong = false;
+      }
+    }
     bgMusic.play().then(() => {
       isPlayingMusic = true;
+      hasStartedBgMusic = true;
       if (musicPlayer) musicPlayer.classList.add('playing');
-      const playBtn = document.getElementById('player-play-btn');
-      if (playBtn) playBtn.classList.add('playing-active');
-      const playArrow = document.getElementById('play-arrow-visual');
-      if (playArrow) playArrow.classList.add('playing-state');
       startSpawningNotes();
     }).catch(() => {
       console.log("Audio block context waiting for user event.");
@@ -421,17 +455,29 @@ function startSpawningNotes() {
   clearInterval(notesInterval);
   notesInterval = setInterval(() => {
     if (!isPlayingMusic) return;
-    const noteChars = ['♪', '♫', '♩', '♬'];
-    const randomNote = noteChars[Math.floor(Math.random() * noteChars.length)];
-    const noteDiv = document.createElement('div');
-    noteDiv.className = 'floating-note';
-    noteDiv.textContent = randomNote;
-    noteDiv.style.left = `${Math.random() * 25 + 5}px`;
-    noteDiv.style.color = ['#dfba73', '#e07a5f', '#B41F18'][Math.floor(Math.random() * 3)];
-    if (musicNotesContainer) musicNotesContainer.appendChild(noteDiv);
     
-    setTimeout(() => { noteDiv.remove(); }, 1800);
-  }, 600);
+    // Floating Heart animations out of the gramophone
+    if (musicPlayer) {
+      const heartDiv = document.createElement('div');
+      heartDiv.className = 'floating-heart-gramophone';
+      
+      const heartIcons = ['❤️', '💖', '💝', '💕'];
+      heartDiv.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      
+      const drift = `${Math.random() * 50 - 25}px`;
+      const rot = `${Math.random() * 40 - 20}deg`;
+      heartDiv.style.setProperty('--drift', drift);
+      heartDiv.style.setProperty('--rot', rot);
+      
+      heartDiv.style.fontSize = `${Math.random() * 12 + 12}px`;
+      heartDiv.style.color = ['#ff4d6d', '#ff758f', '#ff85a1', '#f72585'][Math.floor(Math.random() * 4)];
+      heartDiv.style.right = '10px';
+      heartDiv.style.top = '0px';
+      
+      musicPlayer.appendChild(heartDiv);
+      setTimeout(() => { heartDiv.remove(); }, 2500);
+    }
+  }, 500);
 }
 
 // Track seek bar time update

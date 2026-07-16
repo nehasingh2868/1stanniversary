@@ -2311,3 +2311,59 @@ body {
   }
 }
 
+/* ==========================================
+   Vintage Gramophone Controller & Floating Hearts
+   ========================================== */
+.music-player {
+  animation: floatGramophone 4s ease-in-out infinite alternate;
+}
+
+.music-player:hover {
+  transform: scale(1.1) rotate(5deg) !important;
+  box-shadow: 0 12px 40px rgba(180, 31, 24, 0.4) !important;
+}
+
+.music-player.playing .turntable-disc {
+  animation: rotateDisc 2.5s linear infinite;
+}
+
+.music-player.playing {
+  animation: floatGramophone 4s ease-in-out infinite alternate, spinGramophone 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes rotateDisc {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes floatGramophone {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+@keyframes spinGramophone {
+  0% { transform: translateY(-8px) rotate(-1deg); }
+  100% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.floating-heart-gramophone {
+  position: absolute;
+  pointer-events: none;
+  font-family: inherit;
+  animation: floatUpGramophone 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes floatUpGramophone {
+  0% {
+    transform: translateY(10px) translateX(0) scale(0.3) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translateY(-90px) translateX(var(--drift, -25px)) scale(1.3) rotate(var(--rot, 20deg));
+    opacity: 0;
+  }
+}
+

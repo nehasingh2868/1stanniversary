@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700;900&family=Anton&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=22">
+  <link rel="stylesheet" href="style.css?v=23">
 </head>
 <body>
 
@@ -21,7 +21,21 @@
   <audio id="bg-music" loop src="https://assets.mixkit.co/music/preview/mixkit-romantic-walk-224.mp3"></audio>
   <audio id="player-song" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
-
+  <!-- Top Right Vintage Gramophone Audio Controller -->
+  <div class="music-player" id="music-player" style="position: fixed; top: 20px; right: 20px; z-index: 1000; width: 64px; height: 64px; cursor: pointer; background: rgba(180, 31, 24, 0.15); backdrop-filter: blur(10px); border-radius: 50%; box-shadow: 0 8px 32px rgba(180, 31, 24, 0.25); border: 1.5px solid rgba(255, 255, 255, 0.25); display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <svg class="gramophone-svg" viewBox="0 0 64 64" width="44" height="44" style="transition: transform 0.5s ease; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));">
+      <!-- Horn -->
+      <path d="M38 28 C38 14, 54 4, 58 8 C62 12, 52 28, 38 28 Z" fill="#dfba73" stroke="#b89345" stroke-width="1.5" />
+      <!-- Needle arm -->
+      <path d="M32 36 L38 28 L42 30" fill="none" stroke="#a0a0a0" stroke-width="2" stroke-linecap="round" />
+      <!-- Turntable disc -->
+      <circle class="turntable-disc" cx="28" cy="40" r="14" fill="#202020" stroke="#dfba73" stroke-width="1" style="transform-origin: 28px 40px;" />
+      <circle cx="28" cy="40" r="4" fill="#dfba73" />
+      <!-- Base box -->
+      <path d="M12 40 L44 40 L44 50 L12 50 Z" fill="#8B4513" stroke="#5C2E0B" stroke-width="1.5" />
+      <path d="M10 39 L46 39 L46 41 L10 41 Z" fill="#dfba73" />
+    </svg>
+  </div>
 
   <!-- Main Diary Wrapper -->
   <main class="diary-wrapper">
@@ -251,52 +265,52 @@
         </div>
 
         <!-- ==========================================
-             PAGE 21: Having Fun & Bike Trip
+             PAGE 21: His First Birthday
              ========================================== -->
         <div class="diary-page" id="page-21">
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">21</span>
-            <img src="page21.png" alt="Having Fun & Bike Trip" class="coupons-fullscreen-image">
+            <img src="page21.png" alt="His First Birthday" class="coupons-fullscreen-image">
           </div>
         </div>
 
         <!-- ==========================================
-             PAGE 22: Scared & Office Dates
+             PAGE 22: LDR Video Calls
              ========================================== -->
         <div class="diary-page" id="page-22">
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">22</span>
-            <img src="page22.png" alt="Scared & Office Dates" class="coupons-fullscreen-image">
+            <img src="page22.png" alt="LDR Video Calls" class="coupons-fullscreen-image">
           </div>
         </div>
 
         <!-- ==========================================
-             PAGE 23: Calendar Present
+             PAGE 23: Having Fun & Bike Trip
              ========================================== -->
         <div class="diary-page" id="page-23">
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">23</span>
-            <img src="page23.png" alt="Calendar Present" class="coupons-fullscreen-image">
+            <img src="page23.png" alt="Having Fun & Bike Trip" class="coupons-fullscreen-image">
           </div>
         </div>
 
         <!-- ==========================================
-             PAGE 24: His First Birthday
+             PAGE 24: Scared & Office Dates
              ========================================== -->
         <div class="diary-page" id="page-24">
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">24</span>
-            <img src="page24.png" alt="His First Birthday" class="coupons-fullscreen-image">
+            <img src="page24.png" alt="Scared & Office Dates" class="coupons-fullscreen-image">
           </div>
         </div>
 
         <!-- ==========================================
-             PAGE 25: LDR Video Calls
+             PAGE 25: Calendar Present
              ========================================== -->
         <div class="diary-page" id="page-25">
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">25</span>
-            <img src="page25.png" alt="LDR Video Calls" class="coupons-fullscreen-image">
+            <img src="page25.png" alt="Calendar Present" class="coupons-fullscreen-image">
           </div>
         </div>
 
@@ -333,12 +347,12 @@
         </div>
 
         <!-- ==========================================
-             PAGE 28: Music Player (New style with play button)
+             PAGE 28: Music Player (with video design.mp4)
              ========================================== -->
         <div class="diary-page" id="page-28">
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">28</span>
-            <img src="page28.png" alt="I Think They Call This Love" class="coupons-fullscreen-image">
+            <video src="design.mp4" autoplay loop muted playsinline class="coupons-fullscreen-image" style="object-fit: cover; width: 100%; height: 100%; z-index: 1;"></video>
             
             <!-- Music Play/Pause Hotspot Button -->
             <div class="new-player-play-btn" id="new-player-play-btn" style="position: absolute; top: 76.5%; left: 41.5%; width: 17%; height: 16%; border-radius: 50%; cursor: pointer; z-index: 20;"></div>
