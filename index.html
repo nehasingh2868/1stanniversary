@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Love Diary | Happy Anniversary ❤️</title>
+  <!-- Google Fonts for Custom Cursive script and vintage typefaces -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+
+  <!-- Ambient Light and Petals -->
+  <div class="sunlight-overlay"></div>
+  <div class="ambient-petals-container" id="petals-container"></div>
+  <div class="ambient-hearts-container" id="hearts-container"></div>
+
+  <!-- Ambient Audio Source -->
+  <audio id="bg-music" loop src="https://assets.mixkit.co/music/preview/mixkit-romantic-walk-224.mp3"></audio>
+  <audio id="player-song" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <!-- Gramophone Music Player Control -->
+  <div class="gramophone-player" id="music-player" title="Play Music">
+    <div class="gramophone-body"></div>
+    <div class="gramophone-horn">
+      <svg viewBox="0 0 100 100" class="horn-svg">
+        <path d="M 50 70 Q 20 40 10 10 Q 50 30 80 50 Z" fill="url(#gold-gradient)" />
+        <circle cx="50" cy="50" r="10" fill="#3a2512" />
+        <defs>
+          <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffe8a1" />
+            <stop offset="50%" stop-color="#d4af37" />
+            <stop offset="100%" stop-color="#aa7c11" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="gramophone-record-container">
+      <div class="gramophone-record" id="music-record">
+        <div class="record-grooves"></div>
+        <div class="record-center"></div>
+      </div>
+      <div class="gramophone-needle" id="music-needle"></div>
+    </div>
+    <div class="music-note-spawn" id="music-notes"></div>
+  </div>
+
+  <!-- Main Diary Wrapper -->
+  <main class="diary-wrapper">
+    <div class="diary-container closed-book" id="diary-container">
+      
+      <!-- Fixed Spiral Ring Binder Crease -->
+      <div class="spiral-binder" id="spiral-binder">
+        <!-- 10 Spaced double binder rings -->
+        <div class="spiral-ring-set" style="--y: 40px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 90px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 140px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 190px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 240px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 290px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 340px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 390px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 440px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+        <div class="spiral-ring-set" style="--y: 490px;"><div class="ring-hole hole-left"></div><div class="ring-metal"></div><div class="ring-hole hole-right"></div></div>
+      </div>
+
+      <!-- Back page stack thickness -->
+      <div class="paper-edge-thickness"></div>
+
+      <div class="book-pages" id="book-pages">
+
+        <!-- ==========================================
+             PAGE 1: Cover Page (HEX #B41F18 Collage - Grid Backdrop)
+             ========================================== -->
+        <div class="diary-page cover-image-page" id="page-1">
+          <div class="page-content cover-image-content">
+            <span class="page-number" style="display: none;">1</span>
+            <img src="assets/cover.jpg" alt="Our Love Diary Cover" class="full-cover-img">
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 2: Happy Anniversary Letter (Left page Spread 2)
+             ========================================== -->
+        <div class="diary-page" id="page-2">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">2</span>
+            <img src="page2.png" alt="Happy Anniversary Letter" class="coupons-fullscreen-image">
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 3: NUESTRA VERSIÓN MINI (Heart Locket)
+             ========================================== -->
+        <div class="diary-page" id="page-3">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">3</span>
+            <img src="page3.png" alt="Our Memories Grid" class="coupons-fullscreen-image">
+            
+            <!-- Hotspots for 8 memories polaroid slots -->
+            <div class="memory-hotspot" data-index="1" style="top: 14%; left: 4%; width: 28%; height: 26%;"></div>
+            <div class="memory-hotspot" data-index="2" style="top: 14%; left: 36%; width: 28%; height: 26%;"></div>
+            <div class="memory-hotspot" data-index="3" style="top: 14%; left: 68%; width: 28%; height: 26%;"></div>
+            
+            <div class="memory-hotspot" data-index="4" style="top: 42.5%; left: 4%; width: 28%; height: 26%;"></div>
+            <div class="memory-hotspot" data-index="5" style="top: 42.5%; left: 68%; width: 28%; height: 26%;"></div>
+            
+            <div class="memory-hotspot" data-index="6" style="top: 71%; left: 4%; width: 28%; height: 26%;"></div>
+            <div class="memory-hotspot" data-index="7" style="top: 71%; left: 36%; width: 28%; height: 26%;"></div>
+            <div class="memory-hotspot" data-index="8" style="top: 71%; left: 68%; width: 28%; height: 26%;"></div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 4: Timeline 2018-2019 (4th image)
+             ========================================== -->
+        <div class="diary-page" id="page-4">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">4</span>
+            <img src="page4.png" alt="Our Timeline" class="coupons-fullscreen-image">
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 5: 2024 Chats (2nd image)
+             ========================================== -->
+        <div class="diary-page" id="page-5">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">5</span>
+            <img src="page5.png" alt="2024 Chats" class="coupons-fullscreen-image">
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 6: 2025 Chats (3rd image)
+             ========================================== -->
+        <div class="diary-page" id="page-6">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">6</span>
+            <img src="page6.png" alt="2025 Chats" class="coupons-fullscreen-image">
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 7: Memories Grid (original Page 3)
+             ========================================== -->
+        <div class="diary-page" id="page-7">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">7</span>
+            <img src="page7.png" alt="Our Memories Grid" class="coupons-fullscreen-image">
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 8: WISHLIST 3x3 Grid
+             ========================================== -->
+        <div class="diary-page wishlist-grid-page" id="page-8">
+          <div class="page-content">
+            <span class="page-number">8</span>
+            
+            <h2 class="wishlist-title">Wishlist / Reasons</h2>
+
+            <div class="wishlist-grid-3x3">
+              <div class="wishlist-slot" data-reason="The wrinkle around your eyes when you laugh."><div class="slot-image-box"><img src="assets/couple_photo_1.png"></div></div>
+              <div class="wishlist-slot" data-reason="Saving the last slice of pizza for me 🍕"><div class="slot-image-box"><img src="assets/couple_photo_2.png"></div></div>
+              <div class="wishlist-slot" data-reason="Stupid inside jokes that make zero sense."><div class="slot-image-box"><img src="assets/couple_photo_3.png"></div></div>
+              <div class="wishlist-slot" data-reason="Your cozy warm hugs on freezing nights."><div class="slot-image-box"><img src="assets/couple_photo_2.png"></div></div>
+              <div class="wishlist-slot" data-reason="Always letting me pick the movie."><div class="slot-image-box"><img src="assets/couple_photo_1.png"></div></div>
+              <div class="wishlist-slot" data-reason="Your dedication to terrible singing 🎤"><div class="slot-image-box"><img src="assets/couple_photo_3.png"></div></div>
+              <div class="wishlist-slot" data-reason="Making ordinary days feel magical."><div class="slot-image-box"><img src="assets/couple_photo_1.png"></div></div>
+              <div class="wishlist-slot" data-reason="Patience during my random storms."><div class="slot-image-box"><img src="assets/couple_photo_2.png"></div></div>
+              <div class="wishlist-slot" data-reason="Because you're my absolute home."><div class="slot-image-box"><img src="assets/couple_photo_3.png"></div></div>
+            </div>
+
+            <div class="wishlist-feedback-bar" id="wishlist-feedback">Tap a photo slot to reveal a reason</div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 9: Music Player Page ("Por Primera Vez" - screenshot 3)
+             ========================================== -->
+        <div class="diary-page music-player-card-page grid-bg" id="page-9">
+          <div class="page-content">
+            <span class="page-number">9</span>
+            
+            <!-- Red scalloped polaroid cover art -->
+            <div class="music-album-art-wrapper">
+              <div class="music-scallop-border"></div>
+              <div class="music-polaroid-frame">
+                <img src="assets/couple_photo_3.png" alt="Album Cover Photo">
+              </div>
+            </div>
+
+            <div class="music-details">
+              <h3 class="track-title">Por primera vez</h3>
+              <p class="track-artist">Camilo y Evaluna Montaner</p>
+            </div>
+
+            <!-- Custom music progress slider -->
+            <div class="player-progress-area">
+              <div class="player-time-digits start-time">0:00</div>
+              <div class="player-progress-bar-container">
+                <div class="player-progress-bar-fill" id="music-progress-fill"></div>
+              </div>
+              <div class="player-time-digits end-time">1:20</div>
+            </div>
+
+            <!-- Play/Pause Controls -->
+            <div class="player-controls-row">
+              <button class="player-btn icon-shuffle" title="Shuffle"><svg viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 18 7.41 20.04 9.45 20 4h-5.5zm.59 10.83l1.41 1.41L18 14.83l2.04 2.04L20 12h-5.5l.59 2.83z" fill="#B41F18"/></svg></button>
+              <button class="player-btn icon-prev" title="Previous"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" fill="#B41F18"/></svg></button>
+              <button class="player-play-circle-btn" id="player-play-btn" title="Play">
+                <div class="play-svg-arrow" id="play-arrow-visual"></div>
+              </button>
+              <button class="player-btn icon-next" title="Next"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zm9-12h2v12h-2z" fill="#B41F18"/></svg></button>
+              <button class="player-btn icon-repeat" id="player-loop-btn" title="Loop"><svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z" fill="#B41F18"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 10: New Music Player (1st image)
+             ========================================== -->
+        <div class="diary-page" id="page-10">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; left: 15px;">10</span>
+            <img src="page10.png" alt="I Think They Call This Love" class="coupons-fullscreen-image">
+            
+            <!-- Music Play/Pause Hotspot Button -->
+            <div class="new-player-play-btn" id="new-player-play-btn" style="position: absolute; top: 76.5%; left: 41.5%; width: 17%; height: 16%; border-radius: 50%; cursor: pointer; z-index: 20;"></div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             PAGE 11: Valentine's Day Coupons (Last Page - screenshot 3)
+             ========================================== -->
+        <div class="diary-page grid-bg" id="page-11">
+          <div class="coupons-page-fullscreen">
+            <span class="page-number" style="color: #4A0E17; z-index: 10; bottom: 12px; right: 15px;">11</span>
+            
+            <img src="coupons.png" alt="Love Coupons" class="coupons-fullscreen-image">
+            
+            <!-- Hotspots matching the 10 coupons on the image -->
+            <div class="coupon-hotspot" data-title="1 HOUR KISS" style="top: 14.5%; left: 3.2%; width: 43.5%; height: 12.5%;"></div>
+            <div class="coupon-hotspot" data-title="UNLIMITED HUGS" style="top: 14.5%; left: 50.2%; width: 43.5%; height: 12.5%;"></div>
+            
+            <div class="coupon-hotspot" data-title="Romantic Candlelight Dinner" style="top: 29.8%; left: 3.2%; width: 43.5%; height: 12.5%;"></div>
+            <div class="coupon-hotspot" data-title="One Hour of Cuddles" style="top: 29.8%; left: 50.2%; width: 43.5%; height: 12.5%;"></div>
+            
+            <div class="coupon-hotspot" data-title="SING A SONG" style="top: 45.1%; left: 3.2%; width: 43.5%; height: 12.5%;"></div>
+            <div class="coupon-hotspot" data-title="FUNNY DANCE" style="top: 45.1%; left: 50.2%; width: 43.5%; height: 12.5%;"></div>
+            
+            <div class="coupon-hotspot" data-title="Slow NAKED Dance" style="top: 60.4%; left: 3.2%; width: 43.5%; height: 12.5%;"></div>
+            <div class="coupon-hotspot" data-title="Handwritten Love Poem Just for You" style="top: 60.4%; left: 50.2%; width: 43.5%; height: 12.5%;"></div>
+            
+            <div class="coupon-hotspot" data-title="SLUTTY DRESS TRY ON" style="top: 75.7%; left: 3.2%; width: 43.5%; height: 12.5%;"></div>
+            <div class="coupon-hotspot" data-title="ANY 3 WISHES" style="top: 75.7%; left: 50.2%; width: 43.5%; height: 12.5%;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Coupon Claim/Credit Modal Dialog -->
+  <div class="coupon-modal" id="coupon-modal">
+    <div class="coupon-modal-overlay" id="coupon-modal-overlay"></div>
+    <div class="coupon-modal-box">
+      <div class="coupon-modal-close" id="coupon-modal-close">&times;</div>
+      <h3 class="coupon-modal-title" id="coupon-selected-title">One Free Hug &amp; Kiss Anytime</h3>
+      <p class="coupon-modal-subtitle">Claim your romantic coupon by entering your email!</p>
+      
+      <div class="coupon-input-group">
+        <input type="email" id="coupon-email" placeholder="your.email@example.com" value="pankaj@example.com">
+        <button class="coupon-credit-btn" id="coupon-credit-submit">Credit</button>
+      </div>
+      
+      <!-- Dispatcher steps animation -->
+      <div class="dispatcher-steps" id="dispatcher-steps">
+        <div class="dispatch-step" id="dispatch-step-1">✉️ Generating claim token...</div>
+        <div class="dispatch-step" id="dispatch-step-2">🔐 Verifying neha(cheeku) signature...</div>
+        <div class="dispatch-step" id="dispatch-step-3">🚀 Dispatching automatic email...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coupon Success Modal Dialog -->
+  <div class="success-modal" id="success-modal">
+    <div class="success-modal-overlay" id="success-modal-overlay-close"></div>
+    <div class="success-modal-box">
+      <div class="success-heart-icon">🎁</div>
+      <h3>Coupon Credited!</h3>
+      <p class="success-message">Automatic email dispatched successfully. Don't miss the chance to use it and have fun! <br><strong>Love, neha(cheeku)</strong></p>
+      <button class="success-close-btn" id="success-close-btn">Awesome!</button>
+    </div>
+  </div>
+
+  <!-- Memory Polaroid Grid Popup Modal Dialog -->
+  <div class="memory-modal" id="memory-modal">
+    <div class="memory-modal-overlay" id="memory-modal-overlay"></div>
+    <div class="memory-modal-box">
+      <div class="memory-modal-close" id="memory-modal-close">&times;</div>
+      <div class="memory-modal-img-container">
+        <div class="memory-modal-zoomed-img" id="memory-modal-zoomed-img"></div>
+      </div>
+      <div class="memory-modal-text" id="memory-modal-text"></div>
+    </div>
+  </div>
+
+  <!-- Left/Right navigation helpers for desktop/tablet accessibility -->
+  <div class="page-navigation-arrows">
+    <button class="nav-arrow prev-arrow" id="prev-btn" title="Previous Page" disabled>
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="#ffffff"/></svg>
+    </button>
+    <button class="nav-arrow next-arrow" id="next-btn" title="Next Page">
+      <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="#ffffff"/></svg>
+    </button>
+  </div>
+
+  <!-- Swipe Instruction for mobile -->
+  <div class="swipe-hint" id="swipe-hint">
+    <div class="swipe-hand">👇</div>
+    <span>Scroll down or swipe up to turn page</span>
+  </div>
+
+  <!-- Closing / Ending Outro Screen with Typewriter Pop Up -->
+  <div class="closing-screen" id="outro-screen">
+    <div class="outro-particles" id="outro-particles"></div>
+    <div class="outro-content">
+      <div class="typewriter-container">
+        <h2 class="typewriter-line" id="typewriter-line-1"></h2>
+        <p class="typewriter-line highlight-anniversary" id="typewriter-line-2"></p>
+      </div>
+      <button class="restart-btn" id="restart-btn" style="margin-top: 30px;">Open Diary Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
