@@ -687,8 +687,14 @@ function closeDiaryAndShowCredits() {
   isTurningPage = true;
 
   // Hide arrows & swipe hints
-  document.querySelector('.page-navigation-arrows').style.display = 'none';
-  document.getElementById('swipe-hint').classList.remove('visible');
+  const navArrows = document.querySelector('.page-navigation-arrows');
+  if (navArrows) navArrows.style.display = 'none';
+  
+  const scrollHint = document.getElementById('scroll-down-hint') || document.getElementById('swipe-hint');
+  if (scrollHint) {
+    scrollHint.style.opacity = '0';
+    scrollHint.style.pointerEvents = 'none';
+  }
 
   let delay = 0;
   
