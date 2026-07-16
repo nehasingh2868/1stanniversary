@@ -5,8 +5,8 @@ let isLocked = false;           // Diary starts open (no cover lock option)
 let isTurningPage = false;
 let isMobile = window.innerWidth < 768;
 
-const totalPages = 9;
-const totalSpreads = 5;
+const totalPages = 13;
+const totalSpreads = 7;
 let isPlayingPlayerSong = false;
 
 // Dynamic z-index updating based on current spread/page index to prevent overlapping sheets
@@ -131,8 +131,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentPageIndex === 1);
     nextBtn.disabled = (currentPageIndex === totalPages);
     
-    // Auto-pause new player song if we navigate away from Page 8 on mobile
-    if (currentPageIndex !== 8 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
+    // Auto-pause new player song if we navigate away from Page 12 on mobile
+    if (currentPageIndex !== 12 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
         playerSong.pause();
@@ -143,8 +143,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentSpreadIndex === 1);
     nextBtn.disabled = (currentSpreadIndex === totalSpreads);
     
-    // Auto-pause new player song if we navigate away from Spread 5 (Pages 8 & 9) on desktop
-    if (currentSpreadIndex !== 5 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
+    // Auto-pause new player song if we navigate away from Spread 7 (Pages 12 & 13) on desktop
+    if (currentSpreadIndex !== 7 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
         playerSong.pause();
