@@ -283,24 +283,47 @@ window.addEventListener('wheel', (e) => {
 });
 
 // Swipe controls
-let touchStartY = 0;
 let touchStartX = 0;
+let touchStartY = 0;
+let isSwiping = false;
+
 window.addEventListener('touchstart', (e) => {
-  touchStartY = e.touches[0].clientY;
   touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+  isSwiping = true;
 }, { passive: true });
 
-window.addEventListener('touchend', (e) => {
-  const touchEndY = e.changedTouches[0].clientY;
-  const touchEndX = e.changedTouches[0].clientX;
-  const diffY = touchStartY - touchEndY;
-  const diffX = touchStartX - touchEndX;
+window.addEventListener('touchmove', (e) => {
+  if (!isSwiping) return;
   
-  if (Math.abs(diffY) > 50 || Math.abs(diffX) > 50) {
-    if (diffY > 50 || diffX > 50) {
-      turnPage(1);
+  const currentX = e.touches[0].clientX;
+  const currentY = e.touches[0].clientY;
+  const diffX = touchStartX - currentX;
+  const diffY = touchStartY - currentY;
+  
+  // If the swipe is mostly horizontal, prevent default browser bounce/navigation
+  if (Math.abs(diffX) > Math.abs(diffY)) {
+    if (e.cancelable) {
+      e.preventDefault();
+    }
+  }
+}, { passive: false });
+
+window.addEventListener('touchend', (e) => {
+  if (!isSwiping) return;
+  isSwiping = false;
+  
+  const touchEndX = e.changedTouches[0].clientX;
+  const touchEndY = e.changedTouches[0].clientY;
+  const diffX = touchStartX - touchEndX;
+  const diffY = touchStartY - touchEndY;
+  
+  // Trigger turn page only on clear horizontal swipes
+  if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+    if (diffX > 40) {
+      turnPage(1); // Swipe left -> Next
     } else {
-      turnPage(-1);
+      turnPage(-1); // Swipe right -> Prev
     }
   }
 }, { passive: true });

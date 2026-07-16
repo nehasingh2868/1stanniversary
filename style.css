@@ -2268,3 +2268,10 @@ body {
     gap: 200px;
   }
 }
+
+@media (max-width: 767px) {
+  .page-navigation-arrows {
+    display: none !important;
+  }
+}
+
