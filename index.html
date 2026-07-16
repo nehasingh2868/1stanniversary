@@ -21,20 +21,42 @@
   <audio id="bg-music" loop src="https://assets.mixkit.co/music/preview/mixkit-romantic-walk-224.mp3"></audio>
   <audio id="player-song" loop src="assets/call-this-love.m4a?v=24"></audio>
 
-  <!-- Top Right Vintage Gramophone Audio Controller -->
-  <div class="music-player" id="music-player" style="position: fixed; top: 20px; right: 20px; z-index: 1000; width: 64px; height: 64px; cursor: pointer; background: rgba(180, 31, 24, 0.15); backdrop-filter: blur(10px); border-radius: 50%; box-shadow: 0 8px 32px rgba(180, 31, 24, 0.25); border: 1.5px solid rgba(255, 255, 255, 0.25); display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-    <svg class="gramophone-svg" viewBox="0 0 64 64" width="44" height="44" style="transition: transform 0.5s ease; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));">
-      <!-- Horn -->
-      <path d="M38 28 C38 14, 54 4, 58 8 C62 12, 52 28, 38 28 Z" fill="#dfba73" stroke="#b89345" stroke-width="1.5" />
-      <!-- Needle arm -->
-      <path d="M32 36 L38 28 L42 30" fill="none" stroke="#a0a0a0" stroke-width="2" stroke-linecap="round" />
-      <!-- Turntable disc -->
-      <circle class="turntable-disc" cx="28" cy="40" r="14" fill="#202020" stroke="#dfba73" stroke-width="1" style="transform-origin: 28px 40px;" />
-      <circle cx="28" cy="40" r="4" fill="#dfba73" />
-      <!-- Base box -->
-      <path d="M12 40 L44 40 L44 50 L12 50 Z" fill="#8B4513" stroke="#5C2E0B" stroke-width="1.5" />
-      <path d="M10 39 L46 39 L46 41 L10 41 Z" fill="#dfba73" />
-    </svg>
+  <!-- Full-Screen Lock / Countdown Overlay -->
+  <div id="lock-screen" class="lock-screen-overlay" style="display: none;">
+    <div class="lock-card">
+      <div class="heart-lock-icon">🔒❤️</div>
+      <h2>Our Anniversary Countdown</h2>
+      
+      <!-- Countdown Timer Container -->
+      <div class="countdown-timer" id="countdown-timer">
+        <div class="timer-segment">
+          <span id="timer-days">00</span>
+          <label>Days</label>
+        </div>
+        <div class="timer-segment">
+          <span id="timer-hours">00</span>
+          <label>Hrs</label>
+        </div>
+        <div class="timer-segment">
+          <span id="timer-minutes">00</span>
+          <label>Mins</label>
+        </div>
+        <div class="timer-segment">
+          <span id="timer-seconds">00</span>
+          <label>Secs</label>
+        </div>
+      </div>
+      
+      <!-- Password Prompt Block -->
+      <div class="password-prompt-block">
+        <p class="lock-prompt-text">If you love me, you'll guess it...</p>
+        <div class="password-input-wrapper">
+          <input type="password" id="lock-password" placeholder="Enter password..." autocomplete="off">
+          <button id="lock-submit-btn">Unlock ❤️</button>
+        </div>
+        <p class="lock-error-msg" id="lock-error-msg"></p>
+      </div>
+    </div>
   </div>
 
   <!-- Main Diary Wrapper -->
