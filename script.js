@@ -606,7 +606,11 @@ function closeCouponPopup() {
 
 // Click Claim / Credit button
 couponCreditSubmit.addEventListener('click', () => {
-  const targetEmail = "nikkxo1999@gmail.com";
+  const recipientEmail = couponEmailInput.value.trim();
+  if (!recipientEmail || !recipientEmail.includes('@')) {
+    alert("Please enter a valid email address!");
+    return;
+  }
   
   // Start automated dispatcher simulated loading
   document.querySelector('.coupon-input-group').style.display = 'none';
@@ -630,30 +634,19 @@ couponCreditSubmit.addEventListener('click', () => {
       step2.classList.add('step-done');
       step3.classList.add('step-active');
       
-      // Dispatch background fetch request to Web3Forms to automate email delivery without client mail client launch
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          access_key: "YOUR_WEB3FORMS_ACCESS_KEY", 
-          email: targetEmail,
-          from_name: "Love Diary App",
-          subject: `Coupon Credited: ${activeCouponTitle} 🎁`,
-          message: `Happy Anniversary! Neha has redeemed the coupon: "${activeCouponTitle}"! It is now ready to use.`
-        })
-      }).catch(err => console.log("Automated background dispatch completed."));
-      
       setTimeout(() => {
         step3.classList.remove('step-active');
         step3.classList.add('step-done');
         
-        // Hide claim modal and open Success Popup!
+        // Hide claim modal and open Success Popup, then open mailto redirection
         setTimeout(() => {
           closeCouponPopup();
           successModal.classList.add('active-popup');
+          
+          // Dispatch mailto URL to launch default mail client addressed to recipientEmail
+          const mailSubject = encodeURIComponent(`Your Coupon is Credited: ${activeCouponTitle} 🎁`);
+          const mailBody = encodeURIComponent(`Don't miss the chance to use the coupon and have fun!!!\n\nLove,\nNeha (nikkxo1999@gmail.com)`);
+          window.location.href = `mailto:${recipientEmail}?subject=${mailSubject}&body=${mailBody}`;
         }, 300);
         
       }, 700);
