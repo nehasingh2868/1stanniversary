@@ -1928,6 +1928,14 @@ body {
   margin-bottom: 10px;
 }
 
+#typewriter-line-1 {
+  font-family: 'Anton', sans-serif !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  font-size: 22px !important;
+  letter-spacing: 0.5px !important;
+}
+
 .typewriter-line.highlight-anniversary {
   font-family: var(--font-handwritten);
   font-size: 26px;
@@ -2280,10 +2288,8 @@ body {
   .typewriter-line.highlight-anniversary { font-size: 32px; }
 
   #typewriter-line-1 {
-    font-family: 'Anton', sans-serif !important;
-    font-weight: bold !important;
-    text-transform: uppercase !important;
     font-size: 42px !important;
+    letter-spacing: 1.5px !important;
   }
 
   .gramophone-player {
