@@ -7,6 +7,7 @@ let isMobile = window.innerWidth < 768;
 
 const totalPages = 11;
 const totalSpreads = 6;
+let isPlayingPlayerSong = false;
 
 // Dynamic z-index updating based on current spread/page index to prevent overlapping sheets
 function updatePageZIndices() {
@@ -934,7 +935,6 @@ function closeMemoryPopup() {
    ========================================== */
 const newPlayerPlayBtn = document.getElementById('new-player-play-btn');
 const playerSong = document.getElementById('player-song');
-let isPlayingPlayerSong = false;
 
 if (newPlayerPlayBtn && playerSong) {
   newPlayerPlayBtn.addEventListener('click', () => {
