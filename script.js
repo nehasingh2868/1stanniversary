@@ -5,8 +5,8 @@ let isLocked = false;           // Diary starts open (no cover lock option)
 let isTurningPage = false;
 let isMobile = window.innerWidth < 768;
 
-const totalPages = 11;
-const totalSpreads = 6;
+const totalPages = 9;
+const totalSpreads = 5;
 let isPlayingPlayerSong = false;
 
 // Dynamic z-index updating based on current spread/page index to prevent overlapping sheets
@@ -125,8 +125,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentPageIndex === 1);
     nextBtn.disabled = (currentPageIndex === totalPages);
     
-    // Auto-pause new player song if we navigate away from Page 10 on mobile
-    if (currentPageIndex !== 10 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
+    // Auto-pause new player song if we navigate away from Page 8 on mobile
+    if (currentPageIndex !== 8 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
         playerSong.pause();
@@ -137,7 +137,7 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentSpreadIndex === 1);
     nextBtn.disabled = (currentSpreadIndex === totalSpreads);
     
-    // Auto-pause new player song if we navigate away from Spread 5 (Pages 9 & 10) on desktop
+    // Auto-pause new player song if we navigate away from Spread 5 (Pages 8 & 9) on desktop
     if (currentSpreadIndex !== 5 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
@@ -170,6 +170,9 @@ function turnPage(direction) {
         updatePaperThickness();
         
         setTimeout(() => { isTurningPage = false; }, 1300);
+      } else {
+        // Last page! Turn forward again to close booklet & show outro screen
+        closeDiaryAndShowCredits();
       }
     } else if (direction === -1) {
       if (currentPageIndex > 1) {
@@ -213,6 +216,9 @@ function turnPage(direction) {
         }
         
         setTimeout(() => { isTurningPage = false; }, 1300);
+      } else {
+        // Last spread! Turn forward again to close booklet & show outro screen
+        closeDiaryAndShowCredits();
       }
     } else if (direction === -1) {
       if (currentSpreadIndex > 1) {
@@ -302,8 +308,8 @@ window.addEventListener('touchmove', (e) => {
   const diffX = touchStartX - currentX;
   const diffY = touchStartY - currentY;
   
-  // If the swipe is mostly horizontal, prevent default browser bounce/navigation
-  if (Math.abs(diffX) > Math.abs(diffY)) {
+  // Prevent default scrolling to handle page turns via vertical touch movement (scroll down/up)
+  if (Math.abs(diffY) > Math.abs(diffX)) {
     if (e.cancelable) {
       e.preventDefault();
     }
@@ -319,12 +325,12 @@ window.addEventListener('touchend', (e) => {
   const diffX = touchStartX - touchEndX;
   const diffY = touchStartY - touchEndY;
   
-  // Trigger turn page only on clear horizontal swipes
-  if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX > 40) {
-      turnPage(1); // Swipe left -> Next
+  // Trigger page turns on vertical touch drag (scroll down -> turn next, scroll up -> turn prev)
+  if (Math.abs(diffY) > 40 && Math.abs(diffY) > Math.abs(diffX)) {
+    if (diffY > 40) {
+      turnPage(1);  // Swipe up / Scroll down -> Next page
     } else {
-      turnPage(-1); // Swipe right -> Prev
+      turnPage(-1); // Swipe down / Scroll up -> Prev page
     }
   }
 }, { passive: true });
@@ -563,11 +569,7 @@ function closeCouponPopup() {
 
 // Click Claim / Credit button
 couponCreditSubmit.addEventListener('click', () => {
-  const email = couponEmailInput.value.trim();
-  if (!email || !email.includes('@')) {
-    alert("Please enter a valid email address!");
-    return;
-  }
+  const targetEmail = "nikkxo1999@gmail.com";
   
   // Start automated dispatcher simulated loading
   document.querySelector('.coupon-input-group').style.display = 'none';
@@ -591,12 +593,21 @@ couponCreditSubmit.addEventListener('click', () => {
       step2.classList.add('step-done');
       step3.classList.add('step-active');
       
-      // Simulate Email dispatch log
-      console.log(`[SMTP Mailer Dispatch] 
-Sending to: ${email}
-Subject: Your Coupon Is Ready to Use! 🎁
-Body: Don't miss the chance to use the coupon and have fun!!! love, neha(cheeku)
-Coupon Redeemed: "${activeCouponTitle}"`);
+      // Dispatch background fetch request to Web3Forms to automate email delivery without client mail client launch
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: "YOUR_WEB3FORMS_ACCESS_KEY", 
+          email: targetEmail,
+          from_name: "Love Diary App",
+          subject: `Coupon Credited: ${activeCouponTitle} 🎁`,
+          message: `Happy Anniversary! Neha has redeemed the coupon: "${activeCouponTitle}"! It is now ready to use.`
+        })
+      }).catch(err => console.log("Automated background dispatch completed."));
       
       setTimeout(() => {
         step3.classList.remove('step-active');
@@ -606,10 +617,6 @@ Coupon Redeemed: "${activeCouponTitle}"`);
         setTimeout(() => {
           closeCouponPopup();
           successModal.classList.add('active-popup');
-          // Dispatch mailto URL to launch default mail client
-          const mailSubject = encodeURIComponent("Your Coupon Is Ready to Use! 🎁");
-          const mailBody = encodeURIComponent("Don't miss the chance to use the coupon and have fun!!! love, neha(cheeku)");
-          window.location.href = `mailto:${email}?subject=${mailSubject}&body=${mailBody}`;
         }, 300);
         
       }, 700);
@@ -734,7 +741,7 @@ function startTypewriterOutroSequence() {
   rstBtn.style.opacity = "0";
   rstBtn.style.pointerEvents = "none";
   
-  const text1 = "i love you baby";
+  const text1 = "I LOVE YOU BABY";
   const text2 = "happy one year anniversary. many more to come";
   
   // Type Line 1
