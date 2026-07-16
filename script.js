@@ -5,7 +5,7 @@ let isLocked = false;           // Diary starts open (no cover lock option)
 let isTurningPage = false;
 let isMobile = window.innerWidth < 768;
 
-const totalPages = 28;
+const totalPages = 29;
 const totalSpreads = 15;
 let isPlayingPlayerSong = false;
 
@@ -131,8 +131,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentPageIndex === 1);
     nextBtn.disabled = (currentPageIndex === totalPages);
     
-    // Auto-pause new player song if we navigate away from Page 27 on mobile
-    if (currentPageIndex !== 27 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
+    // Auto-pause new player song if we navigate away from Page 28 on mobile
+    if (currentPageIndex !== 28 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
         playerSong.pause();
@@ -143,8 +143,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentSpreadIndex === 1);
     nextBtn.disabled = (currentSpreadIndex === totalSpreads);
     
-    // Auto-pause new player song if we navigate away from Spread 14 (Pages 26 & 27) on desktop
-    if (currentSpreadIndex !== 14 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
+    // Auto-pause new player song if we navigate away from Spread 15 (Pages 28 & 29) on desktop
+    if (currentSpreadIndex !== 15 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
         playerSong.pause();
