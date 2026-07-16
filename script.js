@@ -5,9 +5,12 @@ let isLocked = false;           // Diary starts open (no cover lock option)
 let isTurningPage = false;
 let isMobile = window.innerWidth < 768;
 
-const totalPages = 29;
-const totalSpreads = 15;
+const totalPages = 30;
+const totalSpreads = 16;
 let isPlayingPlayerSong = false;
+let isPlayingMusic = false;
+let notesInterval = null;
+let hasStartedBgMusic = false;
 
 // Dynamic z-index updating based on current spread/page index to prevent overlapping sheets
 function updatePageZIndices() {
@@ -57,8 +60,6 @@ const musicPlayer = document.getElementById('music-player');
 const musicRecord = document.getElementById('music-record');
 const musicNeedle = document.getElementById('music-needle');
 const musicNotesContainer = document.getElementById('music-notes');
-let isPlayingMusic = false;
-let notesInterval = null;
 
 // Audio Context for Tactile sound effects
 let audioCtx = null;
@@ -131,8 +132,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = (currentPageIndex === 1);
     nextBtn.disabled = (currentPageIndex === totalPages);
     
-    // Auto-pause new player song if we navigate away from Page 28 on mobile
-    if (currentPageIndex !== 28 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
+    // Auto-pause new player song if we navigate away from Page 29 on mobile
+    if (currentPageIndex !== 29 && typeof isPlayingPlayerSong !== 'undefined' && isPlayingPlayerSong) {
       const playerSong = document.getElementById('player-song');
       if (playerSong) {
         playerSong.pause();
@@ -389,7 +390,6 @@ window.addEventListener('resize', () => {
 /* ==========================================
    Music Player (Gramophone)
    ========================================== */
-let hasStartedBgMusic = false;
 
 function playBgMusic() {
   if (hasStartedBgMusic) return;
