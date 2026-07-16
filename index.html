@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700;900&family=Anton&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 
@@ -21,31 +21,7 @@
   <audio id="bg-music" loop src="https://assets.mixkit.co/music/preview/mixkit-romantic-walk-224.mp3"></audio>
   <audio id="player-song" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
 
-  <!-- Gramophone Music Player Control -->
-  <div class="gramophone-player" id="music-player" title="Play Music">
-    <div class="gramophone-body"></div>
-    <div class="gramophone-horn">
-      <svg viewBox="0 0 100 100" class="horn-svg">
-        <path d="M 50 70 Q 20 40 10 10 Q 50 30 80 50 Z" fill="url(#gold-gradient)" />
-        <circle cx="50" cy="50" r="10" fill="#3a2512" />
-        <defs>
-          <linearGradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffe8a1" />
-            <stop offset="50%" stop-color="#d4af37" />
-            <stop offset="100%" stop-color="#aa7c11" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-    <div class="gramophone-record-container">
-      <div class="gramophone-record" id="music-record">
-        <div class="record-grooves"></div>
-        <div class="record-center"></div>
-      </div>
-      <div class="gramophone-needle" id="music-needle"></div>
-    </div>
-    <div class="music-note-spawn" id="music-notes"></div>
-  </div>
+
 
   <!-- Main Diary Wrapper -->
   <main class="diary-wrapper">
@@ -255,10 +231,10 @@
     </button>
   </div>
 
-  <!-- Swipe Instruction for mobile -->
-  <div class="swipe-hint" id="swipe-hint">
-    <div class="swipe-hand">👇</div>
-    <span>Scroll down or swipe up to turn page</span>
+  <!-- Scroll Down Hint with Red Animated Arrow -->
+  <div class="scroll-down-hint" id="scroll-down-hint">
+    <div class="scroll-down-title">SCROLL DOWN TO FLIP PAGES</div>
+    <div class="scroll-down-arrow">↓</div>
   </div>
 
   <!-- Closing / Ending Outro Screen with Typewriter Pop Up -->
@@ -269,7 +245,7 @@
         <h2 class="typewriter-line" id="typewriter-line-1"></h2>
         <p class="typewriter-line highlight-anniversary" id="typewriter-line-2"></p>
       </div>
-      <button class="restart-btn" id="restart-btn" style="margin-top: 30px;">Open Diary Again</button>
+      <button class="restart-btn" id="restart-btn" style="margin-top: 30px;">Start Again</button>
     </div>
   </div>
 

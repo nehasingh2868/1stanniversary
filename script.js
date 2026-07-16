@@ -20,10 +20,13 @@ function updatePageZIndices() {
       
       if (i < currentPageIndex) {
         page.style.zIndex = i;
+        page.style.pointerEvents = 'none';
       } else if (i === currentPageIndex) {
         page.style.zIndex = totalPages + 10;
+        page.style.pointerEvents = 'auto';
       } else {
         page.style.zIndex = totalPages - i + 1;
+        page.style.pointerEvents = 'none';
       }
     }
   } else {
@@ -36,10 +39,13 @@ function updatePageZIndices() {
       
       if (i < activeLeftPageIndex) {
         page.style.zIndex = i;
+        page.style.pointerEvents = 'none';
       } else if (i === activeLeftPageIndex || i === activeRightPageIndex) {
         page.style.zIndex = totalPages + 20;
+        page.style.pointerEvents = 'auto';
       } else {
         page.style.zIndex = totalPages - i;
+        page.style.pointerEvents = 'none';
       }
     }
   }
@@ -143,6 +149,26 @@ function updateNavigationButtons() {
       if (playerSong) {
         playerSong.pause();
         isPlayingPlayerSong = false;
+      }
+    }
+  }
+  
+  // Fade scroll hint once navigated away from Page 1 (Cover)
+  const scrollHint = document.getElementById('scroll-down-hint');
+  if (scrollHint) {
+    if (isMobile) {
+      if (currentPageIndex > 1) {
+        scrollHint.style.opacity = '0';
+        scrollHint.style.pointerEvents = 'none';
+      } else {
+        scrollHint.style.opacity = '0.85';
+      }
+    } else {
+      if (currentSpreadIndex > 1) {
+        scrollHint.style.opacity = '0';
+        scrollHint.style.pointerEvents = 'none';
+      } else {
+        scrollHint.style.opacity = '0.85';
       }
     }
   }
@@ -366,16 +392,20 @@ function toggleMusic() {
   if (isPlayingMusic) {
     bgMusic.pause();
     isPlayingMusic = false;
-    musicPlayer.classList.remove('playing');
-    document.getElementById('player-play-btn').classList.remove('playing-active');
-    document.getElementById('play-arrow-visual').classList.remove('playing-state');
+    if (musicPlayer) musicPlayer.classList.remove('playing');
+    const playBtn = document.getElementById('player-play-btn');
+    if (playBtn) playBtn.classList.remove('playing-active');
+    const playArrow = document.getElementById('play-arrow-visual');
+    if (playArrow) playArrow.classList.remove('playing-state');
     clearInterval(notesInterval);
   } else {
     bgMusic.play().then(() => {
       isPlayingMusic = true;
-      musicPlayer.classList.add('playing');
-      document.getElementById('player-play-btn').classList.add('playing-active');
-      document.getElementById('play-arrow-visual').classList.add('playing-state');
+      if (musicPlayer) musicPlayer.classList.add('playing');
+      const playBtn = document.getElementById('player-play-btn');
+      if (playBtn) playBtn.classList.add('playing-active');
+      const playArrow = document.getElementById('play-arrow-visual');
+      if (playArrow) playArrow.classList.add('playing-state');
       startSpawningNotes();
     }).catch(() => {
       console.log("Audio block context waiting for user event.");
@@ -383,7 +413,9 @@ function toggleMusic() {
   }
 }
 
-musicPlayer.addEventListener('click', toggleMusic);
+if (musicPlayer) {
+  musicPlayer.addEventListener('click', toggleMusic);
+}
 
 function startSpawningNotes() {
   clearInterval(notesInterval);
@@ -396,7 +428,7 @@ function startSpawningNotes() {
     noteDiv.textContent = randomNote;
     noteDiv.style.left = `${Math.random() * 25 + 5}px`;
     noteDiv.style.color = ['#dfba73', '#e07a5f', '#B41F18'][Math.floor(Math.random() * 3)];
-    musicNotesContainer.appendChild(noteDiv);
+    if (musicNotesContainer) musicNotesContainer.appendChild(noteDiv);
     
     setTimeout(() => { noteDiv.remove(); }, 1800);
   }, 600);
@@ -409,23 +441,28 @@ bgMusic.addEventListener('timeupdate', () => {
   
   if (bgMusic.duration) {
     const percent = (bgMusic.currentTime / bgMusic.duration) * 100;
-    progressFill.style.width = `${percent}%`;
+    if (progressFill) progressFill.style.width = `${percent}%`;
     
     const minutes = Math.floor(bgMusic.currentTime / 60);
     const seconds = Math.floor(bgMusic.currentTime % 60).toString().padStart(2, '0');
-    currentTimeLabel.textContent = `${minutes}:${seconds}`;
+    if (currentTimeLabel) currentTimeLabel.textContent = `${minutes}:${seconds}`;
   }
 });
 
 // Custom Page 9 Playback Bar click interaction
-document.getElementById('player-play-btn').addEventListener('click', toggleMusic);
+const oldPlayerPlayBtn = document.getElementById('player-play-btn');
+if (oldPlayerPlayBtn) {
+  oldPlayerPlayBtn.addEventListener('click', toggleMusic);
+}
 
 // Loop toggle button
-const loopBtn = document.getElementById('player-loop-btn');
-loopBtn.addEventListener('click', () => {
-  bgMusic.loop = !bgMusic.loop;
-  loopBtn.classList.toggle('looping-active', bgMusic.loop);
-});
+const oldLoopBtn = document.getElementById('player-loop-btn');
+if (oldLoopBtn) {
+  oldLoopBtn.addEventListener('click', () => {
+    bgMusic.loop = !bgMusic.loop;
+    oldLoopBtn.classList.toggle('looping-active', bgMusic.loop);
+  });
+}
 
 /* ==========================================
    Ambient Elements Generator
@@ -741,8 +778,8 @@ function startTypewriterOutroSequence() {
   rstBtn.style.opacity = "0";
   rstBtn.style.pointerEvents = "none";
   
-  const text1 = "I LOVE YOU BABY";
-  const text2 = "happy one year anniversary. many more to come";
+  const text1 = "I LOVE YOU SO MUCH PANKAJ";
+  const text2 = "happy anniversary once again..cheers to 1 year and many more to come";
   
   // Type Line 1
   typeText(line1, text1, 70, () => {

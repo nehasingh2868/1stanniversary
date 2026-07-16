@@ -1595,14 +1595,22 @@ body {
   border: none !important;
   box-shadow: none !important;
   display: block !important;
-  z-index: 15 !important;
-  cursor: pointer;
+  z-index: 1000 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 
 .coupon-hotspot:hover {
   background: transparent !important;
   box-shadow: none !important;
   transform: none !important;
+}
+
+.new-player-play-btn {
+  position: absolute !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
 }
 
 /* ==========================================
@@ -1972,7 +1980,7 @@ body {
 .nav-arrow svg { width: 22px; height: 22px; }
 .nav-arrow svg path { fill: #ffffff; }
 
-.swipe-hint {
+.scroll-down-hint {
   position: fixed;
   bottom: 80px;
   left: 50%;
@@ -1980,17 +1988,32 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  color: #3b2314;
-  opacity: 0;
+  gap: 4px;
+  color: #B41F18; /* Red color matching cover */
+  opacity: 0.85;
   pointer-events: none;
-  transition: opacity 0.5s ease;
-  z-index: 130;
+  z-index: 200;
+  font-family: var(--font-body);
 }
-.swipe-hint.visible { opacity: 0.75; }
-.swipe-hand { font-size: 18px; animation: finger-bounce 1.5s infinite; }
-@keyframes finger-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-.swipe-hint span { font-family: var(--font-body); font-size: 11px; font-weight: bold; }
+
+.scroll-down-title {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.scroll-down-arrow {
+  font-size: 22px;
+  font-weight: bold;
+  animation: arrow-bounce-scroll 1.2s infinite;
+}
+
+@keyframes arrow-bounce-scroll {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
 
 /* ==========================================
    Closing Outro Overlay Screen
