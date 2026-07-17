@@ -250,6 +250,14 @@ body {
   align-items: center;
   padding: 0 10px;
   box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+body.unlocked .diary-wrapper {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .diary-container {
@@ -2384,6 +2392,7 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
+  background-color: #4A0E17; /* Solid red fallback color for instant 0ms rendering */
   background-image: url('assets/lock_bg.jpg');
   background-size: cover;
   background-position: center;

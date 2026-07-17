@@ -1130,6 +1130,7 @@ if (newPlayerPlayBtn && playerSong) {
   function unlockDiary(instant = false) {
     clearInterval(countdownInterval);
     isLocked = false;
+    document.body.classList.add('unlocked');
     
     if (instant) {
       if (lockScreenOverlay) {
