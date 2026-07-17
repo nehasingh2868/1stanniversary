@@ -71,29 +71,7 @@ function getAudioContext() {
 }
 
 function playPageTurnSound() {
-  try {
-    const ctx = getAudioContext();
-    if (ctx.state === 'suspended') ctx.resume();
-    const bufferSize = ctx.sampleRate * 0.25;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-    const noise = ctx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1000, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.22);
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.04, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.24);
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
-    noise.start();
-  } catch (e) {}
+  // Page flip sounds disabled as requested
 }
 
 function playSealCrackSound() {
@@ -150,6 +128,30 @@ function updateNavigationButtons() {
       if (playerSong) {
         playerSong.pause();
         isPlayingPlayerSong = false;
+      }
+    }
+  }
+  
+  // Handle Memories (Page 27) floating play button state
+  const memoriesContainer = document.getElementById('memories-music-container');
+  const memoriesMusic = document.getElementById('memories-music');
+  const memoriesPlayBtn = document.getElementById('memories-play-btn');
+  const isMemoriesActive = isMobile ? (currentPageIndex === 27) : (currentSpreadIndex === 14);
+  
+  if (isMemoriesActive) {
+    if (memoriesContainer) {
+      memoriesContainer.style.display = 'flex';
+    }
+  } else {
+    if (memoriesContainer) {
+      memoriesContainer.style.display = 'none';
+    }
+    if (memoriesMusic && !memoriesMusic.paused) {
+      memoriesMusic.pause();
+      if (memoriesPlayBtn) {
+        memoriesPlayBtn.classList.remove('playing');
+        const iconSpan = memoriesPlayBtn.querySelector('.music-icon');
+        if (iconSpan) iconSpan.textContent = '▶';
       }
     }
   }
@@ -938,99 +940,46 @@ if (restartBtn) {
 /* ==========================================
    Memory Polaroid Grid Popup System
    ========================================== */
-const memoryHotspots = document.querySelectorAll('.memory-hotspot');
-const memoryModal = document.getElementById('memory-modal');
-const memoryModalZoomedImg = document.getElementById('memory-modal-zoomed-img');
-const memoryModalText = document.getElementById('memory-modal-text');
-const memoryModalClose = document.getElementById('memory-modal-close');
-const memoryModalOverlay = document.getElementById('memory-modal-overlay');
+// Memories click function and popup removed as requested
+/* ==========================================
+   Memories Page Music Player (tumsehi.mp3)
+   ========================================== */
+const memoriesPlayBtn = document.getElementById('memories-play-btn');
+const memoriesMusic = document.getElementById('memories-music');
 
-const memoryMessages = {
-  1: "The wrinkle around your eyes when you laugh makes me smile every time. ❤️",
-  2: "Always saving the last slice of pizza for me, because you know how much I love it! 🍕",
-  3: "Stupid inside jokes that make zero sense to anyone else, but make us laugh to tears. 😂",
-  4: "Your cozy warm hugs on freezing nights are the best place in the world. 🧸",
-  5: "Always letting me pick the movie, even when you know it's going to be a cheesy romance. 🎬",
-  6: "Your dedication to terrible singing in the shower that always brightens my day. 🎤",
-  7: "Making ordinary days feel magical, just by holding my hand and being you. ✨",
-  8: "Because you're my absolute home. No matter where we are, as long as I am with you. 🏡"
-};
+if (memoriesPlayBtn && memoriesMusic) {
+  memoriesPlayBtn.addEventListener('click', () => {
+    if (memoriesMusic.paused) {
+      // Pause any other playing music first to avoid overlapping audio
+      const playerSong = document.getElementById('player-song');
+      if (playerSong && !playerSong.paused) {
+        playerSong.pause();
+        const playerBtn = document.getElementById('new-player-play-btn');
+        if (playerBtn) playerBtn.classList.remove('playing');
+        isPlayingPlayerSong = false;
+      }
+      
+      // Pause background ambient music if running
+      if (typeof isPlayingMusic !== 'undefined' && isPlayingMusic) {
+        if (typeof toggleMusic === 'function') {
+          toggleMusic(); // pauses background music and updates gramophone state
+        }
+      }
 
-const memoryBackgroundPositions = {
-  1: '0% 0%',
-  2: '50% 0%',
-  3: '100% 0%',
-  4: '0% 50%',
-  5: '100% 50%',
-  6: '0% 100%',
-  7: '50% 100%',
-  8: '100% 100%'
-};
-
-let memoryTypewriterTimeout = null;
-
-function runMemoryTypewriter(element, text, speed) {
-  clearTimeout(memoryTypewriterTimeout);
-  element.textContent = "";
-  element.classList.add('typing-active');
-  let idx = 0;
-  function type() {
-    if (idx < text.length) {
-      element.textContent += text.charAt(idx);
-      idx++;
-      memoryTypewriterTimeout = setTimeout(type, speed);
+      memoriesMusic.play().then(() => {
+        memoriesPlayBtn.classList.add('playing');
+        const iconSpan = memoriesPlayBtn.querySelector('.music-icon');
+        if (iconSpan) iconSpan.textContent = '⏸';
+      }).catch(err => {
+        console.error("Audio blocked by browser context", err);
+      });
     } else {
-      element.classList.remove('typing-active');
+      memoriesMusic.pause();
+      memoriesPlayBtn.classList.remove('playing');
+      const iconSpan = memoriesPlayBtn.querySelector('.music-icon');
+      if (iconSpan) iconSpan.textContent = '▶';
     }
-  }
-  type();
-}
-
-memoryHotspots.forEach(hotspot => {
-  hotspot.addEventListener('click', () => {
-    const idx = hotspot.getAttribute('data-index');
-    
-    // Set position to zoom in on clicked polaroid
-    const pos = memoryBackgroundPositions[idx];
-    if (pos) {
-      memoryModalZoomedImg.style.backgroundPosition = pos;
-    }
-    
-    // Open popup
-    memoryModal.classList.add('active-popup');
-    
-    // Start typewriter text
-    const msg = memoryMessages[idx] || "";
-    runMemoryTypewriter(memoryModalText, msg, 40);
-    
-    // Tiny click sound
-    try {
-      const ctx = getAudioContext();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.frequency.value = 523.25;
-      gain.gain.setValueAtTime(0.015, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.12);
-    } catch(e) {}
   });
-});
-
-if (memoryModalClose) {
-  memoryModalClose.addEventListener('click', closeMemoryPopup);
-}
-if (memoryModalOverlay) {
-  memoryModalOverlay.addEventListener('click', closeMemoryPopup);
-}
-
-function closeMemoryPopup() {
-  clearTimeout(memoryTypewriterTimeout);
-  if (memoryModal) {
-    memoryModal.classList.remove('active-popup');
-  }
 }
 
 /* ==========================================
@@ -1074,14 +1023,9 @@ if (newPlayerPlayBtn && playerSong) {
   const timerMinutes = document.getElementById('timer-minutes');
   const timerSeconds = document.getElementById('timer-seconds');
   
-  const hintBtn = document.getElementById('lock-hint-btn');
-  const hintBox = document.getElementById('lock-hint-box');
-  const hintText = document.getElementById('lock-hint-text');
-  const nextHintBtn = document.getElementById('lock-next-hint-btn');
-  
   // Countdown to July 21st, 2026
   const targetDate = new Date('2026-07-21T00:00:00');
-  const correctPasswordHash = "21986e3236f1df3d75ba5171929fb2c9b19191132b6be578b4980884e2e363de";
+  const correctPasswordHash = "6a85a505781eb001db5b85162dec6f8f93b2c81121bdb7c767698984a5ec5592";
   
   async function sha256(message) {
     const msgBuffer = new TextEncoder().encode(message);
@@ -1090,13 +1034,6 @@ if (newPlayerPlayBtn && playerSong) {
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
   }
-  
-  const hints = [
-    "Her absolute favorite Hollywood actor (in ALL CAPS) followed by special characters @#.",
-    "High School Musical star...",
-    "Starts with 'ZAC' and ends with '@#'."
-  ];
-  let currentHintIndex = 0;
   
   // 2. Countdown Timer & Unlock Functions (Declared first to avoid Temporal Dead Zone)
   let countdownInterval = null;
@@ -1156,17 +1093,28 @@ if (newPlayerPlayBtn && playerSong) {
     }
   }
 
-  // 1. Initial State Check (Locked by default until July 21st, 2026 unless password entered)
+  // 1. Initial State Check (Always locked on load/refresh)
   const isCountdownOver = new Date() >= targetDate;
   
-  if (isCountdownOver) {
-    unlockDiary(true); // Instant unlock
-  } else {
-    // Show lock screen (managed by style.css having default display flex)
-    if (lockScreenOverlay) {
-      lockScreenOverlay.style.display = 'flex';
+  // Show lock screen (managed by style.css having default display flex)
+  if (lockScreenOverlay) {
+    lockScreenOverlay.style.display = 'flex';
+    
+    // If countdown is already over, adjust the header and hide the countdown timer container
+    if (isCountdownOver) {
+      const lockHeading = lockScreenOverlay.querySelector('h2');
+      if (lockHeading) {
+        lockHeading.textContent = "Happy Anniversary! ❤️";
+      }
+      const timerContainer = document.getElementById('countdown-timer');
+      if (timerContainer) {
+        timerContainer.style.display = 'none';
+      }
     }
-    isLocked = true;
+  }
+  isLocked = true;
+  
+  if (!isCountdownOver) {
     startCountdown();
   }
   
@@ -1206,33 +1154,6 @@ if (newPlayerPlayBtn && playerSong) {
     passwordInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         attemptUnlock();
-      }
-    });
-  }
-  
-  // 5. Interactive Hints Logic
-  if (hintBtn) {
-    hintBtn.addEventListener('click', () => {
-      if (hintBox) {
-        if (hintBox.style.display === 'none') {
-          currentHintIndex = 0;
-          if (hintText) hintText.textContent = hints[currentHintIndex];
-          hintBox.style.display = 'flex';
-          hintBtn.textContent = 'Hide Hint';
-          if (nextHintBtn) nextHintBtn.style.display = 'block';
-        } else {
-          hintBox.style.display = 'none';
-          hintBtn.textContent = 'Need a hint?';
-        }
-      }
-    });
-  }
-  
-  if (nextHintBtn) {
-    nextHintBtn.addEventListener('click', () => {
-      currentHintIndex = (currentHintIndex + 1) % hints.length;
-      if (hintText) {
-        hintText.textContent = hints[currentHintIndex];
       }
     });
   }

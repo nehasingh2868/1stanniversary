@@ -2108,11 +2108,13 @@ body.unlocked .diary-wrapper {
   /* Book spread dimensions */
   .diary-wrapper {
     width: 760px;
+    max-width: none;
     height: 550px;
   }
   
   .diary-container {
     width: 720px;
+    max-width: none;
     height: 510px;
   }
   
@@ -2561,76 +2563,7 @@ body.unlocked .diary-wrapper {
   transition: opacity 1s ease-in-out;
 }
 
-/* Lock Screen Hints Styling */
-.lock-hints-container {
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
 
-.lock-hint-toggle-btn {
-  background: transparent;
-  border: none;
-  color: #eae2d5; /* Beige */
-  font-family: 'Nexa Serif', var(--font-serif), serif;
-  font-size: 15px;
-  cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  text-decoration: underline;
-}
-
-.lock-hint-toggle-btn:hover {
-  color: #ffffff;
-}
-
-.lock-hint-box {
-  background: #121214; /* Black background */
-  border: 2px dashed #eae2d5; /* Beige border */
-  border-radius: 8px;
-  padding: 15px;
-  width: 100%;
-  max-width: 360px;
-  animation: fadeInHint 0.5s ease forwards;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.lock-hint-text {
-  font-family: 'Nexa Serif', var(--font-serif), serif;
-  font-size: 14px;
-  line-height: 1.4;
-  color: #eae2d5; /* Beige */
-  margin: 0;
-  text-align: center;
-}
-
-.lock-next-hint-btn {
-  background: #eae2d5; /* Beige */
-  border: none;
-  color: #121214; /* Black */
-  font-family: 'Nexa Serif', var(--font-serif), serif;
-  font-size: 12px;
-  padding: 6px 14px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.lock-next-hint-btn:hover {
-  background: #ffffff;
-  color: #121214;
-}
-
-@keyframes fadeInHint {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 /* ==========================================
    Responsive Overrides for Lock Screen on Mobile Devices
@@ -2702,5 +2635,59 @@ body.unlocked .diary-wrapper {
     margin-top: 8px;
     height: auto;
   }
+}
+
+/* Memories Music Floating Button */
+.memories-music-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: none; /* Controlled by JS */
+  align-items: center;
+  justify-content: center;
+}
+
+.memories-play-btn {
+  background: rgba(180, 31, 24, 0.9); /* Burgundy with transparency */
+  border: 2px solid #eae2d5; /* Beige border */
+  color: #eae2d5;
+  padding: 10px 20px;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.memories-play-btn:hover {
+  background: #eae2d5;
+  color: #b41f18;
+  box-shadow: 0 6px 20px rgba(180, 31, 24, 0.6);
+  transform: translateY(-2px);
+}
+
+.memories-play-btn .music-icon {
+  font-size: 15px;
+  transition: transform 0.3s ease;
+}
+
+.memories-play-btn.playing {
+  background: #eae2d5;
+  color: #b41f18;
+  animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(234, 226, 213, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(234, 226, 213, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(234, 226, 213, 0); }
 }
 

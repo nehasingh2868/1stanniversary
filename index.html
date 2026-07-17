@@ -20,6 +20,7 @@
   <!-- Ambient Audio Source -->
   <audio id="bg-music" loop src="https://assets.mixkit.co/music/preview/mixkit-romantic-walk-224.mp3"></audio>
   <audio id="player-song" loop src="assets/call-this-love.m4a?v=24"></audio>
+  <audio id="memories-music" loop src="assets/tumsehi.mp3?v=24"></audio>
 
   <!-- Full-Screen Lock / Countdown Overlay -->
   <div id="lock-screen" class="lock-screen-overlay">
@@ -55,15 +56,6 @@
           <button id="lock-submit-btn">Open</button>
         </div>
         <p class="lock-error-msg" id="lock-error-msg"></p>
-        
-        <!-- Interactive hints below password box -->
-        <div class="lock-hints-container">
-          <button type="button" id="lock-hint-btn" class="lock-hint-toggle-btn">Need a hint?</button>
-          <div id="lock-hint-box" class="lock-hint-box" style="display: none;">
-            <p id="lock-hint-text" class="lock-hint-text"></p>
-            <button type="button" id="lock-next-hint-btn" class="lock-next-hint-btn" style="display: none;">Next Hint -></button>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -359,18 +351,6 @@
           <div class="coupons-page-fullscreen">
             <span class="page-number" style="color: #ffffff; z-index: 10; bottom: 12px; right: 15px;">27</span>
             <img src="page27.png?v=24" alt="Our Memories Grid" class="coupons-fullscreen-image">
-            
-            <!-- Hotspots for 8 memories polaroid slots -->
-            <div class="memory-hotspot" data-index="1" style="top: 14%; left: 4%; width: 28%; height: 26%;"></div>
-            <div class="memory-hotspot" data-index="2" style="top: 14%; left: 36%; width: 28%; height: 26%;"></div>
-            <div class="memory-hotspot" data-index="3" style="top: 14%; left: 68%; width: 28%; height: 26%;"></div>
-            
-            <div class="memory-hotspot" data-index="4" style="top: 42.5%; left: 4%; width: 28%; height: 26%;"></div>
-            <div class="memory-hotspot" data-index="5" style="top: 42.5%; left: 68%; width: 28%; height: 26%;"></div>
-            
-            <div class="memory-hotspot" data-index="6" style="top: 71%; left: 4%; width: 28%; height: 26%;"></div>
-            <div class="memory-hotspot" data-index="7" style="top: 71%; left: 36%; width: 28%; height: 26%;"></div>
-            <div class="memory-hotspot" data-index="8" style="top: 71%; left: 68%; width: 28%; height: 26%;"></div>
           </div>
         </div>
 
@@ -499,6 +479,14 @@
       </div>
       <button class="restart-btn" id="restart-btn" style="margin-top: 30px;">Start Again</button>
     </div>
+  </div>
+
+  <!-- Floating Memories Music Player (Shows only when Memories Page/Spread is active) -->
+  <div class="memories-music-container" id="memories-music-container" style="display: none;">
+    <button type="button" id="memories-play-btn" class="memories-play-btn" title="Play Tum Se Hi">
+      <span class="music-icon">▶</span>
+      <span class="music-text">Play Our Song</span>
+    </button>
   </div>
 
   <script src="script.js?v=29"></script>
