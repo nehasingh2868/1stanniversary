@@ -1,7 +1,7 @@
 // State Variables
 let currentPageIndex = 1;      // Used for mobile (1 to 11)
 let currentSpreadIndex = 1;     // Used for desktop (1 to 6)
-let isLocked = false;           // Diary starts open (no cover lock option)
+let isLocked = true;           // Diary starts locked
 let isTurningPage = false;
 let isMobile = window.innerWidth < 768;
 
@@ -177,7 +177,7 @@ function updateNavigationButtons() {
 
 // Flip page function
 function turnPage(direction) {
-  if (isTurningPage) return;
+  if (isTurningPage || isLocked) return;
   
   isMobile = window.innerWidth < 768;
   
@@ -392,7 +392,7 @@ window.addEventListener('resize', () => {
    ========================================== */
 
 function playBgMusic() {
-  if (hasStartedBgMusic) return;
+  if (hasStartedBgMusic || isLocked) return;
   bgMusic.play().then(() => {
     isPlayingMusic = true;
     hasStartedBgMusic = true;
@@ -461,7 +461,7 @@ function startSpawningNotes() {
       const heartDiv = document.createElement('div');
       heartDiv.className = 'floating-heart-gramophone';
       
-      const heartIcons = ['❤️', '💖', '💝', '💕'];
+      const heartIcons = ['❤️'];
       heartDiv.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
       
       const drift = `${Math.random() * 50 - 25}px`;
@@ -684,15 +684,29 @@ couponCreditSubmit.addEventListener('click', () => {
         step3.classList.remove('step-active');
         step3.classList.add('step-done');
         
-        // Hide claim modal and open Success Popup, then open mailto redirection
+        // Hide claim modal and open Success Popup, and send automated email in the background
         setTimeout(() => {
           closeCouponPopup();
           successModal.classList.add('active-popup');
           
-          // Dispatch mailto URL to launch default mail client addressed to recipientEmail
-          const mailSubject = encodeURIComponent(`Your Coupon is Credited: ${activeCouponTitle} 🎁`);
-          const mailBody = encodeURIComponent(`Don't miss the chance to use the coupon and have fun!!!\n\nLove,\nNeha (nikkxo1999@gmail.com)`);
-          window.location.href = `mailto:${recipientEmail}?subject=${mailSubject}&body=${mailBody}`;
+          // Send email automatically without mailto / user intervention
+          fetch('/send-email', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: recipientEmail,
+              coupon: activeCouponTitle
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            console.log("Automatic email server response:", data);
+          })
+          .catch(err => {
+            console.error("Failed to send automatic email:", err);
+          });
         }, 300);
         
       }, 700);
@@ -1043,5 +1057,176 @@ if (newPlayerPlayBtn && playerSong) {
     }
   });
 }
+
+/* ==========================================
+   Anniversary Lock Screen & Countdown Controller
+   ========================================== */
+
+(function initLockScreen() {
+  const lockScreenOverlay = document.getElementById('lock-screen');
+  const lockCard = lockScreenOverlay ? lockScreenOverlay.querySelector('.lock-card') : null;
+  const passwordInput = document.getElementById('lock-password');
+  const submitBtn = document.getElementById('lock-submit-btn');
+  const errorMsg = document.getElementById('lock-error-msg');
+  
+  const timerDays = document.getElementById('timer-days');
+  const timerHours = document.getElementById('timer-hours');
+  const timerMinutes = document.getElementById('timer-minutes');
+  const timerSeconds = document.getElementById('timer-seconds');
+  
+  const hintBtn = document.getElementById('lock-hint-btn');
+  const hintBox = document.getElementById('lock-hint-box');
+  const hintText = document.getElementById('lock-hint-text');
+  const nextHintBtn = document.getElementById('lock-next-hint-btn');
+  
+  // Countdown to July 21st, 2026
+  const targetDate = new Date('2026-07-21T00:00:00');
+  const correctPassword = "ZACEFRON@#";
+  
+  const hints = [
+    "Her absolute favorite Hollywood actor (in ALL CAPS) followed by special characters @#.",
+    "High School Musical star...",
+    "Starts with 'ZAC' and ends with '@#'."
+  ];
+  let currentHintIndex = 0;
+  
+  // 2. Countdown Timer & Unlock Functions (Declared first to avoid Temporal Dead Zone)
+  let countdownInterval = null;
+  
+  function updateCountdown() {
+    const now = new Date();
+    const difference = targetDate - now;
+    
+    if (difference <= 0) {
+      clearInterval(countdownInterval);
+      unlockDiary(false); // Auto-unlock when target date is reached
+      return;
+    }
+    
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+    
+    if (timerDays) timerDays.textContent = String(days).padStart(2, '0');
+    if (timerHours) timerHours.textContent = String(hours).padStart(2, '0');
+    if (timerMinutes) timerMinutes.textContent = String(minutes).padStart(2, '0');
+    if (timerSeconds) timerSeconds.textContent = String(seconds).padStart(2, '0');
+  }
+
+  function startCountdown() {
+    updateCountdown();
+    countdownInterval = setInterval(updateCountdown, 1000);
+  }
+  
+  function unlockDiary(instant = false) {
+    clearInterval(countdownInterval);
+    isLocked = false;
+    
+    if (instant) {
+      if (lockScreenOverlay) {
+        lockScreenOverlay.style.display = 'none';
+      }
+    } else {
+      // Play tactile seal crack sound effect
+      if (typeof playSealCrackSound === 'function') {
+        playSealCrackSound();
+      }
+      
+      if (lockScreenOverlay) {
+        lockScreenOverlay.classList.add('fade-out');
+        setTimeout(() => {
+          lockScreenOverlay.style.display = 'none';
+        }, 1000);
+      }
+      
+      // Start background music now that page is unlocked and user interacted
+      if (typeof playBgMusic === 'function') {
+        playBgMusic();
+      }
+    }
+  }
+
+  // 1. Initial State Check (Locked by default until July 21st, 2026 unless password entered)
+  const isCountdownOver = new Date() >= targetDate;
+  
+  if (isCountdownOver) {
+    unlockDiary(true); // Instant unlock
+  } else {
+    // Show lock screen (managed by style.css having default display flex)
+    if (lockScreenOverlay) {
+      lockScreenOverlay.style.display = 'flex';
+    }
+    isLocked = true;
+    startCountdown();
+  }
+  
+  // 4. Password Submission Handler
+  function attemptUnlock() {
+    if (!passwordInput) return;
+    const inputVal = passwordInput.value.trim();
+    
+    if (inputVal === correctPassword) {
+      unlockDiary(false);
+    } else {
+      // Clear input and show error message
+      passwordInput.value = '';
+      if (errorMsg) {
+        errorMsg.textContent = "Oops! That's not the key to my heart. Try again!";
+      }
+      
+      // Trigger card shake animation
+      if (lockCard) {
+        lockCard.classList.remove('shake-animation');
+        void lockCard.offsetWidth; // trigger reflow
+        lockCard.classList.add('shake-animation');
+        
+        setTimeout(() => {
+          lockCard.classList.remove('shake-animation');
+        }, 500);
+      }
+    }
+  }
+  
+  if (submitBtn) {
+    submitBtn.addEventListener('click', attemptUnlock);
+  }
+  
+  if (passwordInput) {
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        attemptUnlock();
+      }
+    });
+  }
+  
+  // 5. Interactive Hints Logic
+  if (hintBtn) {
+    hintBtn.addEventListener('click', () => {
+      if (hintBox) {
+        if (hintBox.style.display === 'none') {
+          currentHintIndex = 0;
+          if (hintText) hintText.textContent = hints[currentHintIndex];
+          hintBox.style.display = 'flex';
+          hintBtn.textContent = 'Hide Hint';
+          if (nextHintBtn) nextHintBtn.style.display = 'block';
+        } else {
+          hintBox.style.display = 'none';
+          hintBtn.textContent = 'Need a hint?';
+        }
+      }
+    });
+  }
+  
+  if (nextHintBtn) {
+    nextHintBtn.addEventListener('click', () => {
+      currentHintIndex = (currentHintIndex + 1) % hints.length;
+      if (hintText) {
+        hintText.textContent = hints[currentHintIndex];
+      }
+    });
+  }
+})();
+
 
 

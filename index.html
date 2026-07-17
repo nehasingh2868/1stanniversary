@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Dancing+Script:wght@400;700&family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@400;700;900&family=Anton&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=24">
+  <link rel="stylesheet" href="style.css?v=27">
 </head>
 <body>
 
@@ -22,9 +22,9 @@
   <audio id="player-song" loop src="assets/call-this-love.m4a?v=24"></audio>
 
   <!-- Full-Screen Lock / Countdown Overlay -->
-  <div id="lock-screen" class="lock-screen-overlay" style="display: none;">
+  <div id="lock-screen" class="lock-screen-overlay">
     <div class="lock-card">
-      <div class="heart-lock-icon">🔒❤️</div>
+      <div class="heart-lock-icon"></div>
       <h2>Our Anniversary Countdown</h2>
       
       <!-- Countdown Timer Container -->
@@ -52,9 +52,18 @@
         <p class="lock-prompt-text">If you love me, you'll guess it...</p>
         <div class="password-input-wrapper">
           <input type="password" id="lock-password" placeholder="Enter password..." autocomplete="off">
-          <button id="lock-submit-btn">Unlock ❤️</button>
+          <button id="lock-submit-btn">Open</button>
         </div>
         <p class="lock-error-msg" id="lock-error-msg"></p>
+        
+        <!-- Interactive hints below password box -->
+        <div class="lock-hints-container">
+          <button type="button" id="lock-hint-btn" class="lock-hint-toggle-btn">Need a hint?</button>
+          <div id="lock-hint-box" class="lock-hint-box" style="display: none;">
+            <p id="lock-hint-text" class="lock-hint-text"></p>
+            <button type="button" id="lock-next-hint-btn" class="lock-next-hint-btn" style="display: none;">Next Hint -></button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -492,6 +501,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=27"></script>
 </body>
 </html>

@@ -44,9 +44,12 @@
 
 body {
   font-family: var(--font-body);
-  background-color: #d7d0bd; /* Cozy desk backdrop */
-  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
+  background-color: #f7f6f2;
+  background-image: url('assets/diary_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--vintage-brown);
   min-height: 100vh;
   overflow: hidden;
@@ -1937,7 +1940,7 @@ body {
 }
 
 .typewriter-line.highlight-anniversary {
-  font-family: var(--font-handwritten);
+  font-family: 'Nexa Serif', var(--font-serif), serif;
   font-size: 26px;
   color: var(--rose-pink);
   white-space: normal;
@@ -2057,7 +2060,7 @@ body {
   color: var(--rose-pink);
   padding: 8px 20px;
   border-radius: 20px;
-  font-family: var(--font-body);
+  font-family: 'Nexa Serif', var(--font-serif), serif;
   font-size: 13px;
   letter-spacing: 1px;
   cursor: pointer;
@@ -2084,7 +2087,10 @@ body {
    ========================================== */
 @media (min-width: 768px) {
   body {
-    background-color: #d7d0bd;
+    background-image: url('assets/diary_bg.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
   }
   
   /* Book spread dimensions */
@@ -2365,9 +2371,7 @@ body {
     transform: translateY(-90px) translateX(var(--drift, -25px)) scale(1.3) rotate(var(--rot, 20deg));
     opacity: 0;
   }
-}
-
-/* ==========================================
+}/* ==========================================
    Full-Screen Anniversary Lock Screen & Countdown
    ========================================== */
 .lock-screen-overlay {
@@ -2376,62 +2380,61 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at center, #2a080c 0%, #0d0203 100%);
+  background-image: url('assets/lock_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Montserrat', sans-serif;
-  color: #fff;
+  font-family: 'Anton', sans-serif;
+  color: #eae2d5; /* Beige text */
   padding: 20px;
   box-sizing: border-box;
 }
 
 .lock-card {
-  background: rgba(180, 31, 24, 0.08);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1.5px solid rgba(255, 255, 255, 0.12);
-  border-radius: 24px;
+  background: #121214; /* Matte Black card background */
+  border: 3px solid #eae2d5; /* Beige border */
+  border-radius: 12px;
   padding: 40px 30px;
   max-width: 460px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  animation: fadeInLockCard 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  animation: fadeInLockCard 0.8s ease-in-out forwards;
 }
 
 @keyframes fadeInLockCard {
-  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .heart-lock-icon {
-  font-size: 54px;
-  margin-bottom: 15px;
-  filter: drop-shadow(0 0 15px rgba(255, 77, 109, 0.4));
-  animation: pulseLockIcon 2s infinite alternate;
-}
-
-@keyframes pulseLockIcon {
-  0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.3)); }
-  100% { transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(255, 77, 109, 0.6)); }
+  font-family: 'Anton', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  color: #eae2d5; /* Beige */
 }
 
 .lock-card h2 {
-  font-family: 'Dancing Script', cursive;
-  font-size: 36px;
-  color: #ff758f;
+  font-family: 'Anton', sans-serif;
+  font-size: 38px;
+  color: #eae2d5; /* Beige */
   margin: 0 0 25px 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
 }
 
 .countdown-timer {
   display: flex;
   justify-content: space-around;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  background: rgba(234, 226, 213, 0.05); /* Transparent beige border */
+  border: 2px solid #eae2d5; /* Beige border */
+  border-radius: 8px;
   padding: 20px 10px;
   margin-bottom: 30px;
 }
@@ -2444,19 +2447,19 @@ body {
 }
 
 .timer-segment span {
-  font-size: 32px;
-  font-weight: 700;
-  color: #ff85a1;
-  font-family: monospace;
-  text-shadow: 0 0 10px rgba(255, 133, 161, 0.3);
+  font-size: 36px;
+  font-weight: bold;
+  color: #eae2d5; /* Beige numbers */
+  font-family: 'Anton', sans-serif;
 }
 
 .timer-segment label {
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  color: #eae2d5; /* Beige labels */
   margin-top: 5px;
   letter-spacing: 1px;
+  font-family: 'Anton', sans-serif;
 }
 
 .password-prompt-block {
@@ -2464,24 +2467,20 @@ body {
 }
 
 .lock-prompt-text {
-  font-family: 'Caveat', cursive;
-  font-size: 24px;
-  color: #e07a5f;
+  font-family: 'Nexa Serif', var(--font-serif), serif;
+  font-size: 19px;
+  color: #eae2d5; /* Beige text */
   margin: 0 0 15px 0;
 }
 
 .password-input-wrapper {
   display: flex;
   gap: 10px;
-  background: rgba(0, 0, 0, 0.3);
+  background: #121214; /* Black input container */
   padding: 6px;
-  border-radius: 30px;
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  border: 2px solid #eae2d5; /* Beige border */
   transition: border-color 0.3s ease;
-}
-
-.password-input-wrapper:focus-within {
-  border-color: #ff4d6d;
 }
 
 .password-input-wrapper input {
@@ -2489,41 +2488,41 @@ body {
   background: transparent;
   border: none;
   outline: none;
-  color: #fff;
-  font-size: 15px;
+  color: #eae2d5; /* Beige input text */
+  font-size: 16px;
   padding: 8px 15px;
-  font-family: inherit;
+  font-family: 'Nexa Serif', var(--font-serif), serif;
 }
 
 .password-input-wrapper input::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(234, 226, 213, 0.4); /* Muted beige */
 }
 
 .password-input-wrapper button {
-  background: linear-gradient(135deg, #B41F18 0%, #8B1410 100%);
+  background: #eae2d5; /* Beige button */
   border: none;
   outline: none;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 8px 20px;
-  border-radius: 20px;
+  color: #121214; /* Black text */
+  font-family: 'Nexa Serif', var(--font-serif), serif;
+  font-size: 15px;
+  padding: 8px 25px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s ease;
 }
 
 .password-input-wrapper button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(180, 31, 24, 0.4);
+  background: #ffffff; /* White hover */
+  transform: translateY(-1px);
 }
 
 .lock-error-msg {
-  font-size: 12px;
-  color: #ff4d6d;
+  font-family: 'Nexa Serif', var(--font-serif), serif;
+  font-size: 14px;
+  color: #eae2d5; /* Beige error message */
   margin: 10px 0 0 0;
   height: 16px;
   transition: all 0.3s ease;
-  font-weight: bold;
 }
 
 /* Shake animation for wrong password entry */
@@ -2535,5 +2534,83 @@ body {
   0%, 100% { transform: translateX(0); }
   20%, 60% { transform: translateX(-8px); }
   40%, 80% { transform: translateX(8px); }
+}
+
+/* Lock Screen Fade Out Transition */
+.lock-screen-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease-in-out;
+}
+
+/* Lock Screen Hints Styling */
+.lock-hints-container {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lock-hint-toggle-btn {
+  background: transparent;
+  border: none;
+  color: #eae2d5; /* Beige */
+  font-family: 'Nexa Serif', var(--font-serif), serif;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  text-decoration: underline;
+}
+
+.lock-hint-toggle-btn:hover {
+  color: #ffffff;
+}
+
+.lock-hint-box {
+  background: #121214; /* Black background */
+  border: 2px dashed #eae2d5; /* Beige border */
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
+  max-width: 360px;
+  animation: fadeInHint 0.5s ease forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lock-hint-text {
+  font-family: 'Nexa Serif', var(--font-serif), serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #eae2d5; /* Beige */
+  margin: 0;
+  text-align: center;
+}
+
+.lock-next-hint-btn {
+  background: #eae2d5; /* Beige */
+  border: none;
+  color: #121214; /* Black */
+  font-family: 'Nexa Serif', var(--font-serif), serif;
+  font-size: 12px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lock-next-hint-btn:hover {
+  background: #ffffff;
+  color: #121214;
+}
+
+@keyframes fadeInHint {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
