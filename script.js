@@ -1081,7 +1081,15 @@ if (newPlayerPlayBtn && playerSong) {
   
   // Countdown to July 21st, 2026
   const targetDate = new Date('2026-07-21T00:00:00');
-  const correctPassword = "ZACEFRON@#";
+  const correctPasswordHash = "21986e3236f1df3d75ba5171929fb2c9b19191132b6be578b4980884e2e363de";
+  
+  async function sha256(message) {
+    const msgBuffer = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+  }
   
   const hints = [
     "Her absolute favorite Hollywood actor (in ALL CAPS) followed by special characters @#.",
@@ -1162,11 +1170,12 @@ if (newPlayerPlayBtn && playerSong) {
   }
   
   // 4. Password Submission Handler
-  function attemptUnlock() {
+  async function attemptUnlock() {
     if (!passwordInput) return;
     const inputVal = passwordInput.value.trim();
+    const inputHash = await sha256(inputVal);
     
-    if (inputVal === correctPassword) {
+    if (inputHash === correctPasswordHash) {
       unlockDiary(false);
     } else {
       // Clear input and show error message
